@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VoyageFlow — Ultra Luxury Demo</title>
+
+  <!-- small Tailwind helper (optional) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- custom css -->
+  <link rel="stylesheet" href="voyageflow_style.css" />
+</head>
+<body id="appBody" class="theme-dark">
+
+  <header class="topbar sticky-nav">
+  <div class="container topbar-inner">
+
+    <!-- LEFT: LOGO -->
+    <div class="brand">VoyageFlow</div>
+
+    <!-- CENTER: NAVIGATION -->
+   <nav class="main-nav">
+  <ul>
+    <li><a class="nav-item" data-type="flights"><span class="icon">✈️</span> Flights</a></li>
+    <li><a class="nav-item" data-type="hotels"><span class="icon">🏨</span> Hotels</a></li>
+    <li><a class="nav-item" data-type="food"><span class="icon">🍽</span> Food</a></li>
+    <li><a class="nav-item" data-type="activities"><span class="icon">🎉</span> Activities</a></li>
+    <li><a class="nav-item" data-type="packages"><span class="icon">🎒</span> Packages</a></li>
+    <li><a class="nav-item" data-type="transport"><span class="icon">🚙</span> Transport</a></li>
+    <li><a class="nav-item" data-type="addons"><span class="icon">➕</span> Add-ons</a></li>
+    <li><a class="nav-item" data-type="more"><span class="icon">⋯</span> More</a></li>
+  </ul>
+</nav>
+
+
+    <!-- RIGHT: THEME TOGGLE -->
+    <div class="controls">
+      <button id="themeToggle" class="icon-btn" title="Toggle theme">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ===== City Select Modal ===== -->
+<div id="citySelectModal" class="city-modal hidden">
+  <div class="city-modal-card">
+    <h3>Select City</h3>
+
+    <p class="city-modal-sub">Please choose a city to continue:</p>
+
+    <div class="city-modal-list">
+      <button class="city-option" data-city="tokyo">Tokyo</button>
+      <button class="city-option" data-city="paris">Paris</button>
+      <button class="city-option" data-city="rome">Rome</button>
+      <button class="city-option" data-city="bali">Bali</button>
+      <button class="city-option" data-city="ny">New York</button>
+    </div>
+
+    <button id="cityModalClose" class="city-close">Cancel</button>
+  </div>
+</div>
+
+
+  <div class="hero-tagline">
+  <h2 class="tagline-text">Yatra ka swag, Luxury ka tag — VoyageFlow ke saath elite journey ab ek naye level par!</h2>
+</div>
+
+
+
+  <main class="container app-container">
+
+    <!-- PAGE 1: Registration -->
+    <section id="page1" class="page page-visible" aria-labelledby="p1">
+      <h1 id="p1" class="title">VoyageFlow — Interactive Travel Experience Simulator</h1>
+      <p class="subtitle">Experience elite-class travel. Share your details and unlock the Luxe journey</p>
+
+      <form id="regForm" class="form-grid" autocomplete="off" novalidate>
+        <div>
+          <label for="fullName">Full Name</label>
+          <input id="fullName" class="input" placeholder="Your name (as on ticket)" />
+          <p id="errName" class="error"></p>
+        </div>
+
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" class="input" maxlength="10" placeholder="Enter your 10-digit mobile number" inputmode="numeric" />
+          <p id="errPhone" class="error"></p>
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input id="email" class="input" type="email" placeholder="you@domain.com" />
+          <p id="errEmail" class="error"></p>
+        </div>
+
+        <div class="full">
+          <label for="moodCustom">Mood (optional)</label>
+          <div id="moodDropdownWrap"></div>
+        </div>
+
+        <div class="full">
+          <button type="button" id="submitBtn" class="btn-primary neon">Start Journey</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- PAGE 2: Destinations -->
+    <section id="page2" class="page hidden" aria-labelledby="p2">
+      <nav id="cityNav" class="topnav" aria-label="Destinations"></nav>
+      <div id="destContainer" class="destContainer" aria-live="polite"></div>
+      <div class="actions">
+        <button id="toCalcBtn" class="btn-primary neon">Continue to Calculator →</button>
+      </div>
+    </section>
+
+    <!-- PAGE 3: Price Calculator -->
+    <section id="page3" class="page hidden" aria-labelledby="p3">
+
+    <h2 id="p3" class="title">Trip Price Calculator</h2>
+
+    <!-- PRICE CARDS ONLY (JS fills this) -->
+    <div id="priceSection">
+        <div id="priceCards"></div>
+    </div>
+
+    <!-- SUMMARY ALWAYS VISIBLE -->
+    <div class="summary-row">
+
+        <div class="left">
+            <label for="promo">Promo Code</label>
+            <input id="promo" class="input promo" placeholder="SAVE10 / FLAT500">
+        </div>
+
+        <div class="right total-block">
+            <p class="muted small">Total</p>
+            <div id="total" class="total">₹0</div>
+        </div>
+
+    </div>
+
+    <!-- CONFIRM BUTTON ALWAYS VISIBLE -->
+    <div class="actions">
+        <button id="confirmBtn" class="btn-primary neon">
+            Confirm Trip ✓
+        </button>
+    </div>
+
+</section>
+
+
+
+    <!-- PAGE 4: Thank you -->
+    <section id="page4" class="page hidden page-center" aria-labelledby="p4">
+      <h2 id="p4" class="title">Thank You!</h2>
+      <p class="subtitle">Your luxury booking preview is ready. Print your elegant ticket below.</p>
+      <div class="actions">
+        <button id="printTicketBtn" class="btn-primary neon">Print Ticket</button>
+        <button id="startOverBtn" class="small-btn">Start Again</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Luxury Ticket preview -->
+  <div id="modalBG" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <header class="modal-header">
+        <h3>Luxury Ticket — Preview</h3>
+        <button id="modalClose" class="icon-btn">✕</button>
+      </header>
+      <div id="modalContent" class="modal-body"></div>
+      <footer class="modal-footer">
+        <button id="modalPrint" class="btn-primary neon">Print Ticket</button>
+        <button id="modalSave" class="small-btn">Download JSON</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="voyageflow_app.js"></script>
+</body>
+</html>
